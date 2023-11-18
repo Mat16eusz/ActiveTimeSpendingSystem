@@ -1,21 +1,18 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.mateusz.jasiak.activetimespendingsystem"
+    namespace = "com.mateusz.jasiak.activetimespendingsystem.domain"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.mateusz.jasiak.activetimespendingsystem"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -35,24 +32,18 @@ android {
         jvmTarget = "17"
     }
 
-    buildFeatures {
-        dataBinding = true
-        viewBinding = true
-    }
-
     kapt {
         generateStubs = true
     }
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":data")))
-    implementation(project(mapOf("path" to ":domain")))
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.test:monitor:1.6.1")
 
     implementation("com.google.dagger:dagger:2.48")
     implementation("com.google.dagger:dagger-android:2.48")
