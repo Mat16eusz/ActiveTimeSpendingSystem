@@ -1,4 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ActiveTimeSpendingSystem</string>
-    <string name="sign_out">Sign out</string>
+    <string name="sign_out">Wyloguj</string>
 </resources>

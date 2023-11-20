@@ -2,4 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="blackTextColor">#FF000000</color>
+    <color name="whiteTextColor">#FFFFFF</color>
+    <color name="textColorHintLight">#FF999999</color>
+
+    <color name="backgroundLightBlackColor">#FF383838</color>
+    <color name="backgroundDarkBlackColor">#FF262626</color>
+    <color name="backgroundLightWhiteColor">#FFFFFFFF</color>
+    <color name="backgroundDarkWhiteColor">#FFE6E6E6</color>
+
+    <color name="colorPrimary">#FFBA5849</color>
+    <color name="colorPrimaryVariant">#FF3B1C17</color>
+    <color name="colorAccent">#FFBA5849</color>
+
+    <color name="colorTheme">#FF262626</color>
 </resources>
