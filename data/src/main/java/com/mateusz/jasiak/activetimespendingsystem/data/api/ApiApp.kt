@@ -9,13 +9,13 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiApp {
-    @GET("players") // TODO: Change players on users
+    @GET("users")
     suspend fun getUsers(): Response<List<UserDomain>>
 
-    @POST("players") // TODO: Change players on users
+    @POST("users")
     suspend fun addUser(@Body userDomain: UserDomain): Response<UserDomain>
 
-    @PUT("players/{id}") // TODO: Change players on users
+    @PUT("users/{id}")
     suspend fun updateUserToken(
         @Path("id") id: String?,
         @Body userDomain: UserDomain
