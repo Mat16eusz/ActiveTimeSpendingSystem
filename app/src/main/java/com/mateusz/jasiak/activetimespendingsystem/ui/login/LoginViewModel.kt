@@ -22,14 +22,12 @@ class LoginViewModel @Inject constructor(
     var isLogged: Boolean = false
 
     fun handleSignInResult(task: Task<GoogleSignInAccount>) {
-        if (task.isSuccessful) {
-            val account: GoogleSignInAccount? = task.result
-
-            account?.let {
-                getAccountGoogleData(account)
+        when (task.isSuccessful) {
+            true -> getAccountGoogleData(task.result)
+            else -> {
+                Log.e("GOOGLE ERROR", task.exception.toString())
+                baseAction.postValue(BaseAction.UnknownError)
             }
-        } else {
-            Log.e("GOOGLE ERROR", task.exception.toString())
         }
     }
 
@@ -49,6 +47,7 @@ class LoginViewModel @Inject constructor(
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener {
             if (!it.isSuccessful) {
                 Log.e("TOKEN FCM ERROR", "Fetching FCM registration token failed", it.exception)
+                baseAction.postValue(BaseAction.UnknownError)
                 return@OnCompleteListener
             }
 
@@ -74,13 +73,8 @@ class LoginViewModel @Inject constructor(
 
                 else -> {
                     when (response.errorResponse?.code) {
-                        ErrorCode.NO_NETWORK -> {
-                            // TODO: Add implement
-                        }
-
-                        else -> {
-                            // TODO: Add implement
-                        }
+                        ErrorCode.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
+                        else -> baseAction.postValue(BaseAction.UnknownError)
                     }
                 }
             }
@@ -116,13 +110,8 @@ class LoginViewModel @Inject constructor(
 
                 else -> {
                     when (response.errorResponse?.code) {
-                        ErrorCode.NO_NETWORK -> {
-                            // TODO: Add implement
-                        }
-
-                        else -> {
-                            // TODO: Add implement
-                        }
+                        ErrorCode.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
+                        else -> baseAction.postValue(BaseAction.UnknownError)
                     }
                 }
             }
@@ -137,13 +126,8 @@ class LoginViewModel @Inject constructor(
 
                 else -> {
                     when (response.errorResponse?.code) {
-                        ErrorCode.NO_NETWORK -> {
-                            // TODO: Add implement
-                        }
-
-                        else -> {
-                            // TODO: Add implement
-                        }
+                        ErrorCode.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
+                        else -> baseAction.postValue(BaseAction.UnknownError)
                     }
                 }
             }

@@ -11,7 +11,8 @@ import com.mateusz.jasiak.activetimespendingsystem.R
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseActivity
 import com.mateusz.jasiak.activetimespendingsystem.databinding.ActivityMainBinding
 import com.mateusz.jasiak.activetimespendingsystem.ui.login.LoginActivity
-import com.mateusz.jasiak.activetimespendingsystem.ui.login.LoginActivity.Companion.LOGGED_KEY
+import com.mateusz.jasiak.activetimespendingsystem.utils.LOGGED_KEY
+import com.mateusz.jasiak.activetimespendingsystem.utils.SHARED_PREFERENCES
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -22,7 +23,8 @@ class MainActivity : BaseActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
     companion object {
-        fun start(activity: Activity) = activity.startActivity(Intent(activity, LoginActivity::class.java))
+        fun start(activity: Activity) =
+            activity.startActivity(Intent(activity, LoginActivity::class.java))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,26 +37,25 @@ class MainActivity : BaseActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        //showInfoToast(getString(R.string.logged_in))
+        showInfoToast(getString(R.string.logged_in))
 
         binding.signOutButton.setOnClickListener {
             googleSignInClient.signOut().addOnCompleteListener {
                 when (it.isSuccessful) {
                     true -> {
                         saveDataLogged()
-                        //showInfoToast(getString(R.string.logged_out))
+                        showInfoToast(getString(R.string.logged_out))
                         start(this)
                     }
-                    else -> {
-                        //showInfoToast(getString(R.string.wrong_logout))
-                    }
+
+                    else -> showInfoToast(getString(R.string.wrong_logout))
                 }
             }
         }
     }
 
     private fun saveDataLogged() {
-        val sharedPreferences = getSharedPreferences("Shared preferences", MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putBoolean(LOGGED_KEY, false)
         editor.apply()
