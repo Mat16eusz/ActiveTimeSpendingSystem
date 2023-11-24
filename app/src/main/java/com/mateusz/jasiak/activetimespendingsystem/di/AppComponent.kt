@@ -1,9 +1,11 @@
 package com.mateusz.jasiak.activetimespendingsystem.di
 
 import com.mateusz.jasiak.activetimespendingsystem.ActiveTimeSpendingSystemApp
+import com.mateusz.jasiak.activetimespendingsystem.di.modules.RepositoryModules
 import com.mateusz.jasiak.activetimespendingsystem.di.modules.general.ApiModule
 import com.mateusz.jasiak.activetimespendingsystem.di.modules.general.AppModule
 import com.mateusz.jasiak.activetimespendingsystem.di.modules.view_modules.login.LoginViewModule
+import com.mateusz.jasiak.activetimespendingsystem.di.modules.view_modules.main.MainViewModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -19,9 +21,11 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         AppModule::class,
         ApiModule::class,
+        RepositoryModules::class,
 
         // ViewModule
-        LoginViewModule::class
+        LoginViewModule::class,
+        MainViewModule::class
     ]
 )
 interface AppComponent : AndroidInjector<ActiveTimeSpendingSystemApp> {

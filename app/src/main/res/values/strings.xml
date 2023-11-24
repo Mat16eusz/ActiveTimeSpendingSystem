@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">ActiveTimeSpendingSystem</string>
+    <string name="unknown_error">An unknown error has occurred. Try again</string>
+    <string name="logged_in">Logged in!!</string>
+    <string name="wrong_logged_in">Error while logged in!</string>
+    <string name="sign_out">Sign out</string>
+    <string name="logged_out">Logged out!</string>
+    <string name="wrong_logout">Error while logging out!</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="ok">Ok</string>
+    <string name="no_network">No internet access. Try again</string>
 </resources>

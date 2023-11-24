@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ActiveTimeSpendingSystem</string>
+    <string name="unknown_error">Wystąpił nieznany błąd. Spróbuj ponownie</string>
+    <string name="logged_in">Zalogowano!</string>
+    <string name="wrong_logged_in">Błąd podczas logowania!</string>
+    <string name="sign_out">Wyloguj</string>
+    <string name="logged_out">Wylogowano!</string>
+    <string name="wrong_logout">Błąd podczas wylogowania!</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="ok">Ok</string>
+    <string name="no_network">Brak dostępu do internetu. Spróbuj ponownie</string>
+</resources>
