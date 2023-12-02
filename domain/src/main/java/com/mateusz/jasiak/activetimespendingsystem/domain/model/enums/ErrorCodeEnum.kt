@@ -1,6 +1,6 @@
 package com.mateusz.jasiak.activetimespendingsystem.domain.model.enums
 
-enum class ErrorCode {
+enum class ErrorCodeEnum {
     UNAUTHORIZED,
     NOT_FOUND,
     NO_NETWORK,

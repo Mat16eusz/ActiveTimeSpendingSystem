@@ -1,4 +1,4 @@
-package com.mateusz.jasiak.activetimespendingsystem.ui.login
+package com.mateusz.jasiak.activetimespendingsystem.ui.activities.login
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseViewModel
 import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.UserDomain
-import com.mateusz.jasiak.activetimespendingsystem.domain.model.enums.ErrorCode
+import com.mateusz.jasiak.activetimespendingsystem.domain.model.enums.ErrorCodeEnum
 import com.mateusz.jasiak.activetimespendingsystem.domain.usecase.LoginUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -73,7 +73,7 @@ class LoginViewModel @Inject constructor(
 
                 else -> {
                     when (response.errorResponse?.code) {
-                        ErrorCode.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
+                        ErrorCodeEnum.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
                         else -> baseAction.postValue(BaseAction.UnknownError)
                     }
                 }
@@ -110,7 +110,7 @@ class LoginViewModel @Inject constructor(
 
                 else -> {
                     when (response.errorResponse?.code) {
-                        ErrorCode.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
+                        ErrorCodeEnum.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
                         else -> baseAction.postValue(BaseAction.UnknownError)
                     }
                 }
@@ -126,7 +126,7 @@ class LoginViewModel @Inject constructor(
 
                 else -> {
                     when (response.errorResponse?.code) {
-                        ErrorCode.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
+                        ErrorCodeEnum.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
                         else -> baseAction.postValue(BaseAction.UnknownError)
                     }
                 }

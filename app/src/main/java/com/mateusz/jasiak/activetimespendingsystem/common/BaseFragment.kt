@@ -8,7 +8,7 @@ import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-class BaseFragment : DaggerFragment() {
+abstract class BaseFragment : DaggerFragment() {
     @Inject
     lateinit var factory: ViewModelFactory
 
