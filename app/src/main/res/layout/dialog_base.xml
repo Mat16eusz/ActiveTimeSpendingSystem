@@ -33,7 +33,7 @@
             tools:text="Add value?" />
 
         <Button
-            android:id="@+id/buttonNo"
+            android:id="@+id/button_no"
             style="@style/normalTextBlack"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -44,12 +44,12 @@
             android:background="@drawable/rounded_background_dark_white"
             android:text="@string/no"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/buttonYes"
+            app:layout_constraintEnd_toStartOf="@+id/button_yes"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/message" />
 
         <Button
-            android:id="@+id/buttonYes"
+            android:id="@+id/button_yes"
             style="@style/normalTextBlack"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -59,13 +59,13 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_background_dark_white"
             android:text="@string/yes"
-            app:layout_constraintBottom_toBottomOf="@id/buttonNo"
+            app:layout_constraintBottom_toBottomOf="@id/button_no"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/buttonNo"
-            app:layout_constraintTop_toTopOf="@id/buttonNo" />
+            app:layout_constraintStart_toEndOf="@id/button_no"
+            app:layout_constraintTop_toTopOf="@id/button_no" />
 
         <Button
-            android:id="@+id/buttonConfirm"
+            android:id="@+id/button_confirm"
             style="@style/normalTextBlack"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

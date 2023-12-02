@@ -10,4 +10,6 @@
     <string name="yes">Yes</string>
     <string name="ok">Ok</string>
     <string name="no_network">No internet access. Try again</string>
+    <string name="map">Map</string>
+    <string name="ranking">Ranking</string>
 </resources>

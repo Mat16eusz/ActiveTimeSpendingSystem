@@ -9,7 +9,7 @@
         tools:context=".ui.login.LoginActivity">
 
         <ImageView
-            android:id="@+id/logoApp"
+            android:id="@+id/logo_app"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/sign_in_button"

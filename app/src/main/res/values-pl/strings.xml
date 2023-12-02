@@ -11,4 +11,6 @@
     <string name="no">Nie</string>
     <string name="ok">Ok</string>
     <string name="no_network">Brak dostępu do internetu. Spróbuj ponownie</string>
+    <string name="map">Mapa</string>
+    <string name="ranking">Ranking</string>
 </resources>
