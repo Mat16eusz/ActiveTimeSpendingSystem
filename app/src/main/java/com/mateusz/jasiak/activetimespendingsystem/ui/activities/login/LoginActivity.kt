@@ -1,4 +1,4 @@
-package com.mateusz.jasiak.activetimespendingsystem.ui.login
+package com.mateusz.jasiak.activetimespendingsystem.ui.activities.login
 
 import android.app.Activity
 import android.content.Intent
@@ -12,7 +12,7 @@ import com.google.android.gms.common.SignInButton
 import com.mateusz.jasiak.activetimespendingsystem.R
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseActivity
 import com.mateusz.jasiak.activetimespendingsystem.databinding.ActivityLoginBinding
-import com.mateusz.jasiak.activetimespendingsystem.ui.main.MainActivity
+import com.mateusz.jasiak.activetimespendingsystem.ui.activities.main.MainActivity
 import com.mateusz.jasiak.activetimespendingsystem.utils.LOGGED_KEY
 import com.mateusz.jasiak.activetimespendingsystem.utils.SHARED_PREFERENCES
 

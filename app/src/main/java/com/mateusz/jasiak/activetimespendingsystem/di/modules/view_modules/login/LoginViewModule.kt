@@ -2,8 +2,8 @@ package com.mateusz.jasiak.activetimespendingsystem.di.modules.view_modules.logi
 
 import androidx.lifecycle.ViewModel
 import com.mateusz.jasiak.activetimespendingsystem.di.modules.ViewModelKey
-import com.mateusz.jasiak.activetimespendingsystem.ui.login.LoginActivity
-import com.mateusz.jasiak.activetimespendingsystem.ui.login.LoginViewModel
+import com.mateusz.jasiak.activetimespendingsystem.ui.activities.login.LoginActivity
+import com.mateusz.jasiak.activetimespendingsystem.ui.activities.login.LoginViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

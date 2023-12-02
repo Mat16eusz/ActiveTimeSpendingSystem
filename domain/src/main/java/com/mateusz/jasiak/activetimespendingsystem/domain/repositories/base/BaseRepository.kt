@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.gson.stream.MalformedJsonException
 import com.mateusz.jasiak.activetimespendingsystem.domain.api.response.ApiResponse
 import com.mateusz.jasiak.activetimespendingsystem.domain.api.response.ErrorResponse
-import com.mateusz.jasiak.activetimespendingsystem.domain.model.enums.ErrorCode
+import com.mateusz.jasiak.activetimespendingsystem.domain.model.enums.ErrorCodeEnum
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -38,10 +38,10 @@ interface BaseRepository {
                 val error = jsonObject.getString("error")
                 val errorMessage = jsonObject.getString("message")
 
-                val errorCode: ErrorCode = when (code) {
-                    401 -> ErrorCode.UNAUTHORIZED
-                    404 -> ErrorCode.NOT_FOUND
-                    else -> ErrorCode.UNKNOWN
+                val errorCode: ErrorCodeEnum = when (code) {
+                    401 -> ErrorCodeEnum.UNAUTHORIZED
+                    404 -> ErrorCodeEnum.NOT_FOUND
+                    else -> ErrorCodeEnum.UNKNOWN
                 }
 
                 return ApiResponse.Failure(ErrorResponse(errorCode, error, errorMessage))
@@ -52,26 +52,26 @@ interface BaseRepository {
                 )
             }
         }
-        return ApiResponse.Failure(ErrorResponse(ErrorCode.UNKNOWN))
+        return ApiResponse.Failure(ErrorResponse(ErrorCodeEnum.UNKNOWN))
     }
 
     private fun <T> handleException(exception: Exception?): ApiResponse<T> {
         exception?.let {
             val errorResponse = when (exception) {
                 is ConnectException -> {
-                    ErrorResponse(ErrorCode.NO_NETWORK)
+                    ErrorResponse(ErrorCodeEnum.NO_NETWORK)
                 }
 
                 is MalformedJsonException -> {
-                    ErrorResponse(ErrorCode.BAD_RESPONSE)
+                    ErrorResponse(ErrorCodeEnum.BAD_RESPONSE)
                 }
 
                 else -> {
-                    ErrorResponse(ErrorCode.UNKNOWN)
+                    ErrorResponse(ErrorCodeEnum.UNKNOWN)
                 }
             }
             return ApiResponse.Failure(errorResponse)
         }
-        return ApiResponse.Failure(ErrorResponse(ErrorCode.UNKNOWN))
+        return ApiResponse.Failure(ErrorResponse(ErrorCodeEnum.UNKNOWN))
     }
 }

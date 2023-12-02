@@ -1,4 +1,4 @@
-package com.mateusz.jasiak.activetimespendingsystem.ui.main
+package com.mateusz.jasiak.activetimespendingsystem.ui.activities.main
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mateusz.jasiak.activetimespendingsystem.R
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseActivity
 import com.mateusz.jasiak.activetimespendingsystem.databinding.ActivityMainBinding
-import com.mateusz.jasiak.activetimespendingsystem.ui.login.LoginActivity
+import com.mateusz.jasiak.activetimespendingsystem.domain.model.enums.FragmentsTagNameEnum
+import com.mateusz.jasiak.activetimespendingsystem.ui.activities.login.LoginActivity
+import com.mateusz.jasiak.activetimespendingsystem.ui.fragments.map.MapFragment
+import com.mateusz.jasiak.activetimespendingsystem.ui.fragments.ranking.RankingFragment
 import com.mateusz.jasiak.activetimespendingsystem.utils.LOGGED_KEY
 import com.mateusz.jasiak.activetimespendingsystem.utils.SHARED_PREFERENCES
 
@@ -51,6 +54,17 @@ class MainActivity : BaseActivity() {
                     else -> showInfoToast(getString(R.string.wrong_logout))
                 }
             }
+        }
+
+        binding.mapButton.setOnClickListener {
+            openFragment(MapFragment(), FragmentsTagNameEnum.MAP_FRAGMENT.name)
+        }
+        binding.rankingButton.setOnClickListener {
+            openFragment(RankingFragment(), FragmentsTagNameEnum.RANKING_FRAGMENT.name)
+        }
+
+        if (supportFragmentManager.fragments.isEmpty()) {
+            openFragment(MapFragment(), FragmentsTagNameEnum.MAP_FRAGMENT.name)
         }
     }
 

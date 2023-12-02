@@ -1,9 +1,9 @@
 package com.mateusz.jasiak.activetimespendingsystem.domain.api.response
 
-import com.mateusz.jasiak.activetimespendingsystem.domain.model.enums.ErrorCode
+import com.mateusz.jasiak.activetimespendingsystem.domain.model.enums.ErrorCodeEnum
 
 data class ErrorResponse(
-    val code: ErrorCode = ErrorCode.UNKNOWN,
+    val code: ErrorCodeEnum = ErrorCodeEnum.UNKNOWN,
     val error: String = "",
     val message: String = ""
 ) {

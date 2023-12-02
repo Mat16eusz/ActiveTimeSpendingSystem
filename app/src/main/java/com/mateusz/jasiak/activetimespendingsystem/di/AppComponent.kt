@@ -6,6 +6,8 @@ import com.mateusz.jasiak.activetimespendingsystem.di.modules.general.ApiModule
 import com.mateusz.jasiak.activetimespendingsystem.di.modules.general.AppModule
 import com.mateusz.jasiak.activetimespendingsystem.di.modules.view_modules.login.LoginViewModule
 import com.mateusz.jasiak.activetimespendingsystem.di.modules.view_modules.main.MainViewModule
+import com.mateusz.jasiak.activetimespendingsystem.di.modules.view_modules.map.MapViewModule
+import com.mateusz.jasiak.activetimespendingsystem.di.modules.view_modules.ranking.RankingViewModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -25,7 +27,9 @@ import javax.inject.Singleton
 
         // ViewModule
         LoginViewModule::class,
-        MainViewModule::class
+        MainViewModule::class,
+        MapViewModule::class,
+        RankingViewModule::class
     ]
 )
 interface AppComponent : AndroidInjector<ActiveTimeSpendingSystemApp> {

@@ -1,9 +1,9 @@
-package com.mateusz.jasiak.activetimespendingsystem.ui.main
+package com.mateusz.jasiak.activetimespendingsystem.ui.fragments.map
 
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseViewModel
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(
+class MapViewModel @Inject constructor(
 ) : BaseViewModel() {
 
 }

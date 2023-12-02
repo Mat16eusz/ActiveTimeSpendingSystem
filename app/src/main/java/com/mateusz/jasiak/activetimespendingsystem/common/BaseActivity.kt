@@ -2,6 +2,7 @@ package com.mateusz.jasiak.activetimespendingsystem.common
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mateusz.jasiak.activetimespendingsystem.R
@@ -55,5 +56,13 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         message?.let {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         }
+    }
+
+    protected fun openFragment(fragment: Fragment, tag: String) {
+        supportFragmentManager
+            .beginTransaction().apply {
+                this.replace(R.id.constraint_layout_child, fragment, tag)
+                this.addToBackStack(null)
+            }.commit()
     }
 }

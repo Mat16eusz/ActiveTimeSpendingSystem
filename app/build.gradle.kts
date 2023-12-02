@@ -6,6 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.gms.google-services")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 val apikeyPropertiesFile = rootProject.file("apikey.properties")
@@ -26,7 +27,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BASE_URL", apikeyProperties["BASE_URL"].toString())
-        buildConfigField("String", "FCM_SERVER_KEY", apikeyProperties["FCM_SERVER_KEY"].toString())
+        buildConfigField("String", "MAPS_API_KEY", apikeyProperties["MAPS_API_KEY"].toString())
     }
 
     buildTypes {
@@ -57,6 +58,10 @@ android {
     }
 }
 
+secrets {
+    defaultPropertiesFileName = "apikey.properties"
+}
+
 dependencies {
     // Include module
     implementation(project(mapOf("path" to ":data")))
@@ -72,8 +77,8 @@ dependencies {
     implementation("com.google.dagger:dagger:2.48")
     implementation("com.google.dagger:dagger-android:2.48")
     implementation("com.google.dagger:dagger-android-support:2.48")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
     kapt("com.google.dagger:dagger-android-processor:2.48")
     kapt("com.google.dagger:dagger-compiler:2.48")
     kapt("com.google.dagger:dagger-android-support:2.48")
@@ -91,6 +96,9 @@ dependencies {
     implementation("com.google.android.gms:play-services-base:18.2.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
+
+    // Maps SDK for Android
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     // Tests
     testImplementation("junit:junit:4.13.2")
