@@ -60,6 +60,11 @@ class LoginActivity : BaseActivity() {
             signInGoogle()
         }
 
+        when (isDarkModeOn()) {
+            true -> binding.logoApp.setBackgroundResource(R.drawable.atss_light)
+            else -> binding.logoApp.setBackgroundResource(R.drawable.atss_dark)
+        }
+
         initObserver()
     }
 
