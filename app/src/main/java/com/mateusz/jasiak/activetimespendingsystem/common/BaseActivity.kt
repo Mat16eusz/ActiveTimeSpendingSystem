@@ -1,5 +1,6 @@
 package com.mateusz.jasiak.activetimespendingsystem.common
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -43,6 +44,11 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
                 }
             }
         }
+    }
+
+    protected fun isDarkModeOn(): Boolean {
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 
     protected fun showInfoDialog(message: String?) {
