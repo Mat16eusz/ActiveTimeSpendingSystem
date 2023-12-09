@@ -27,6 +27,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BASE_URL", apikeyProperties["BASE_URL"].toString())
+        buildConfigField("String", "LOCAL_URL", apikeyProperties["LOCAL_URL"].toString())
         buildConfigField("String", "MAPS_API_KEY", apikeyProperties["MAPS_API_KEY"].toString())
     }
 
@@ -99,6 +100,7 @@ dependencies {
 
     // Maps SDK for Android
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // Tests
     testImplementation("junit:junit:4.13.2")

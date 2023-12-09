@@ -13,7 +13,8 @@ class ApiModule {
     @Provides
     @Singleton
     fun providersRetrofit(): Retrofit {
-        return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
+        return Retrofit.Builder().baseUrl(BuildConfig.LOCAL_URL)
+        //return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
