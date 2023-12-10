@@ -7,15 +7,19 @@ import com.mateusz.jasiak.activetimespendingsystem.domain.repositories.UserRepos
 class LoginUseCase(
     private val userRepository: UserRepository
 ) {
-    suspend fun getUsers(): ApiResponse<List<UserDomain>> {
-        return userRepository.getUsers()
+    suspend fun getUsersFromApi(): ApiResponse<List<UserDomain>> {
+        return userRepository.getUsersFromApi()
     }
 
-    suspend fun addUser(userDomain: UserDomain): ApiResponse<UserDomain> {
-        return userRepository.addUser(userDomain)
+    suspend fun getUserByIdFromApi(idSocialMedia: String): ApiResponse<UserDomain> {
+        return userRepository.getUserByIdFromApi(idSocialMedia)
     }
 
-    suspend fun updateUserToken(id: String?, userDomain: UserDomain): ApiResponse<UserDomain> {
-        return userRepository.updateUserToken(id, userDomain)
+    suspend fun addUserOnApi(userDomain: UserDomain): ApiResponse<UserDomain> {
+        return userRepository.addUserOnApi(userDomain)
+    }
+
+    suspend fun updateUserByIdOnApi(id: String?, userDomain: UserDomain): ApiResponse<UserDomain> {
+        return userRepository.updateUserByIdOnApi(id, userDomain)
     }
 }

@@ -21,10 +21,20 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.mateusz.jasiak.activetimespendingsystem.BuildConfig
 import com.mateusz.jasiak.activetimespendingsystem.R
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseFragment
 import com.mateusz.jasiak.activetimespendingsystem.databinding.FragmentMapBinding
+import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.CoordinateDomain
 import com.mateusz.jasiak.activetimespendingsystem.ui.activities.main.MainActivity
+import com.mateusz.jasiak.activetimespendingsystem.utils.EMPTY_STRING
+import com.mateusz.jasiak.activetimespendingsystem.utils.ID_SOCIAL_MEDIA_KEY
+import com.mateusz.jasiak.activetimespendingsystem.utils.SHARED_PREFERENCES
+import dagger.android.support.DaggerAppCompatActivity
 
 class MapFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMapBinding
@@ -38,6 +48,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
+    private lateinit var placesClient: PlacesClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +66,9 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mapView.onCreate(savedInstanceState)
 
+        viewModel.idSocialMedia = loadDataLogged()
+        viewModel.idSocialMedia?.let { viewModel.getUserByIdFromApi(it) }
+
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(activity as MainActivity)
         binding.mapView.getMapAsync(this)
@@ -67,6 +81,10 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
             }
         }
         startLocationUpdates()
+        context?.let {
+            Places.initialize(it, BuildConfig.MAPS_API_KEY)
+            placesClient = Places.createClient(it)
+        }
 
         return binding.root
     }
@@ -133,13 +151,104 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location ->
                 val myCurrentLocation = LatLng(location.latitude, location.longitude)
-                googleMap.clear()
-                googleMap.addMarker(
-                    MarkerOptions().position(myCurrentLocation).title("Mateusz")
-                )
+                getCurrentPlace(googleMap, myCurrentLocation)
                 if (isMovedCamera) {
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(myCurrentLocation))
                 }
             }
+    }
+
+    private fun getCurrentPlace(googleMap: GoogleMap, myCurrentLocation: LatLng) {
+        if (context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            } != PackageManager.PERMISSION_GRANTED && context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            } != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+
+        val placeFields = listOf(Place.Field.NAME, Place.Field.TYPES, Place.Field.LAT_LNG)
+        val request = FindCurrentPlaceRequest.newInstance(placeFields)
+        val placeResult = placesClient.findCurrentPlace(request)
+        placeResult.addOnCompleteListener { task ->
+            if (task.isSuccessful && task.result != null) {
+                val placeTagName = listOf(
+                    "athletic_field",
+                    "fitness_center",
+                    "golf_course",
+                    "gym",
+                    "playground",
+                    "fitness_center",
+                    "ski_resort",
+                    "sports_club",
+                    "sports_complex",
+                    "stadium",
+                    "swimming_pool",
+                    "amusement_center",
+                    "amusement_park",
+                    "aquarium",
+                    "bowling_alley",
+                    "dog_park",
+                    "hiking_area",
+                    "historical_landmark",
+                    "marina",
+                    "national_park",
+                    "park",
+                    "tourist_attraction",
+                    "zoo"
+                )
+
+                val likelyPlaces = task.result
+                val placeTypes = likelyPlaces.placeLikelihoods.firstOrNull()?.place?.placeTypes
+                placeTypes?.let {
+                    var foundPlace = false
+                    for (placeType in it) {
+                        placeTagName.find { tagName ->
+                            placeType.equals(tagName)
+                        }?.let {
+
+                            val coordinateDomain = CoordinateDomain(
+                                viewModel.idSocialMedia,
+                                viewModel.loggedUserData?.firstName,
+                                myCurrentLocation.latitude,
+                                myCurrentLocation.longitude
+                            )
+
+                            viewModel.idSocialMedia?.let { idSocialMedia ->
+                                viewModel.updateCoordinateByIdOnApi(idSocialMedia, coordinateDomain)
+                            }
+
+                            googleMap.addMarker(
+                                MarkerOptions().position(myCurrentLocation)
+                                    .title(viewModel.loggedUserData?.firstName)
+                            )
+                            foundPlace = true
+                        } ?: run {
+                            if (!foundPlace) {
+                                googleMap.clear()
+                                viewModel.idSocialMedia?.let { idSocialMedia ->
+                                    viewModel.deleteCoordinateByIdOnApi(idSocialMedia)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadDataLogged(): String? {
+        val sharedPreferences = context?.getSharedPreferences(
+            SHARED_PREFERENCES,
+            DaggerAppCompatActivity.MODE_PRIVATE
+        )
+        return sharedPreferences?.getString(ID_SOCIAL_MEDIA_KEY, EMPTY_STRING)
     }
 }
