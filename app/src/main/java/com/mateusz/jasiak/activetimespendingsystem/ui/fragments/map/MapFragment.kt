@@ -86,12 +86,44 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
             placesClient = Places.createClient(it)
         }
 
+        initObserver()
+
         return binding.root
     }
 
     override fun onPause() {
         super.onPause()
         stopLocationUpdates()
+    }
+
+    private fun initObserver() {
+        viewModel.action.observe(viewLifecycleOwner) {
+            when (it) {
+                is MapViewModel.Action.SuccessGetCoordinateData -> {
+                    viewModel.allUserCoordinates?.let { allUserCoordinates ->
+                        googleMap.clear()
+                        for (userCoordinate in allUserCoordinates) {
+                            val myCurrentLocation =
+                                userCoordinate.latitude?.let { latitude ->
+                                    userCoordinate.longitude?.let { longitude ->
+                                        LatLng(latitude, longitude)
+                                    }
+                                }
+                            myCurrentLocation?.let { userCurrentLocation ->
+                                googleMap.addMarker(
+                                    MarkerOptions().position(userCurrentLocation)
+                                        .title(viewModel.loggedUserData?.firstName)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                else -> {
+                    // Do nothing
+                }
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -213,22 +245,16 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                         placeTagName.find { tagName ->
                             placeType.equals(tagName)
                         }?.let {
-
                             val coordinateDomain = CoordinateDomain(
                                 viewModel.idSocialMedia,
                                 viewModel.loggedUserData?.firstName,
                                 myCurrentLocation.latitude,
                                 myCurrentLocation.longitude
                             )
-
                             viewModel.idSocialMedia?.let { idSocialMedia ->
                                 viewModel.updateCoordinateByIdOnApi(idSocialMedia, coordinateDomain)
                             }
 
-                            googleMap.addMarker(
-                                MarkerOptions().position(myCurrentLocation)
-                                    .title(viewModel.loggedUserData?.firstName)
-                            )
                             foundPlace = true
                         } ?: run {
                             if (!foundPlace) {
@@ -239,6 +265,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                             }
                         }
                     }
+                    viewModel.getCoordinatesFromApi()
                 }
             }
         }

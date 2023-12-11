@@ -1,5 +1,6 @@
 package com.mateusz.jasiak.activetimespendingsystem.ui.fragments.map
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseViewModel
 import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.CoordinateDomain
@@ -13,6 +14,7 @@ class MapViewModel @Inject constructor(
     private val mapUseCase: MapUseCase,
     private val loginUseCase: LoginUseCase
 ) : BaseViewModel() {
+    val action = MutableLiveData<Action>()
     var allUserCoordinates: List<CoordinateDomain>? = null
 
     fun getUserByIdFromApi(idSocialMedia: String) {
@@ -37,7 +39,11 @@ class MapViewModel @Inject constructor(
         viewModelScope.launch {
             val response = mapUseCase.getCoordinatesFromApi()
             when (response.isSuccessful) {
-                true -> allUserCoordinates = response.data
+                true -> {
+                    allUserCoordinates = response.data
+                    action.postValue(Action.SuccessGetCoordinateData)
+                }
+
                 else -> {
                     when (response.errorResponse?.code) {
                         ErrorCodeEnum.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
@@ -82,5 +88,9 @@ class MapViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    sealed class Action {
+        data object SuccessGetCoordinateData : Action()
     }
 }
