@@ -17,8 +17,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
 ) : BaseViewModel() {
-    private var userDomain = UserDomain()
     val action = MutableLiveData<Action>()
+    var userDomain = UserDomain()
     var isLogged: Boolean = false
 
     fun handleSignInResult(task: Task<GoogleSignInAccount>) {
@@ -55,15 +55,15 @@ class LoginViewModel @Inject constructor(
             Log.d("TOKEN FCM", it.result.toString())
 
             when (isLogged) {
-                true -> updateAccountGoogleData(userDomain)
+                true -> updateAccountGoogleDataOnApi(userDomain)
                 false -> action.postValue(Action.GetTokenFirebase)
             }
         })
     }
 
-    private fun updateAccountGoogleData(userDomain: UserDomain) {
+    private fun updateAccountGoogleDataOnApi(userDomain: UserDomain) {
         viewModelScope.launch {
-            val response = loginUseCase.updateUserToken(userDomain.idSocialMedia, userDomain)
+            val response = loginUseCase.updateUserByIdOnApi(userDomain.idSocialMedia, userDomain)
             when (response.isSuccessful) {
                 true -> {
                     if (isLogged) {
@@ -83,7 +83,7 @@ class LoginViewModel @Inject constructor(
 
     fun getUsersFromApiAndCheckUserFirstLogin() {
         viewModelScope.launch {
-            val response = loginUseCase.getUsers()
+            val response = loginUseCase.getUsersFromApi()
             when (response.isSuccessful) {
                 true -> {
                     var userIsRegister = false
@@ -92,7 +92,6 @@ class LoginViewModel @Inject constructor(
                         for (user in it) {
                             if (user.idSocialMedia == userDomain.idSocialMedia) {
                                 userIsRegister = true
-
                                 break
                             }
                         }
@@ -100,7 +99,7 @@ class LoginViewModel @Inject constructor(
 
                     when (userIsRegister) {
                         true -> {
-                            updateAccountGoogleData(userDomain)
+                            updateAccountGoogleDataOnApi(userDomain)
                             action.postValue(Action.StartActivity)
                         }
 
@@ -120,7 +119,7 @@ class LoginViewModel @Inject constructor(
 
     private fun sendPlayerDataToApi(userDomain: UserDomain) {
         viewModelScope.launch {
-            val response = loginUseCase.addUser(userDomain)
+            val response = loginUseCase.addUserOnApi(userDomain)
             when (response.isSuccessful) {
                 true -> action.postValue(Action.StartActivity)
 

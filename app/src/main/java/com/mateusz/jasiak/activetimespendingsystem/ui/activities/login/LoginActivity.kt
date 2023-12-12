@@ -13,6 +13,7 @@ import com.mateusz.jasiak.activetimespendingsystem.R
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseActivity
 import com.mateusz.jasiak.activetimespendingsystem.databinding.ActivityLoginBinding
 import com.mateusz.jasiak.activetimespendingsystem.ui.activities.main.MainActivity
+import com.mateusz.jasiak.activetimespendingsystem.utils.ID_SOCIAL_MEDIA_KEY
 import com.mateusz.jasiak.activetimespendingsystem.utils.LOGGED_KEY
 import com.mateusz.jasiak.activetimespendingsystem.utils.SHARED_PREFERENCES
 
@@ -102,6 +103,7 @@ class LoginActivity : BaseActivity() {
         val sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putBoolean(LOGGED_KEY, true)
+        editor.putString(ID_SOCIAL_MEDIA_KEY, viewModel.userDomain.idSocialMedia)
         editor.apply()
     }
 

@@ -5,21 +5,25 @@ import com.mateusz.jasiak.activetimespendingsystem.domain.api.response.ApiRespon
 import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.UserDomain
 import com.mateusz.jasiak.activetimespendingsystem.domain.repositories.UserRepository
 
-class UserRepositoryImpl constructor(
+class UserRepositoryImpl(
     private val apiApp: ApiApp
 ) : UserRepository {
-    override suspend fun getUsers(): ApiResponse<List<UserDomain>> {
-        return handleRequest { apiApp.getUsers() }
+    override suspend fun getUsersFromApi(): ApiResponse<List<UserDomain>> {
+        return handleRequest { apiApp.getUsersFromApi() }
     }
 
-    override suspend fun addUser(userDomain: UserDomain): ApiResponse<UserDomain> {
-        return handleRequest { apiApp.addUser(userDomain) }
+    override suspend fun getUserByIdFromApi(idSocialMedia: String): ApiResponse<UserDomain> {
+        return handleRequest { apiApp.getUserByIdFromApi(idSocialMedia) }
     }
 
-    override suspend fun updateUserToken(
+    override suspend fun addUserOnApi(userDomain: UserDomain): ApiResponse<UserDomain> {
+        return handleRequest { apiApp.addUserOnApi(userDomain) }
+    }
+
+    override suspend fun updateUserByIdOnApi(
         id: String?,
         userDomain: UserDomain
     ): ApiResponse<UserDomain> {
-        return handleRequest { apiApp.updateUserToken(id, userDomain) }
+        return handleRequest { apiApp.updateUserByIdOnApi(id, userDomain) }
     }
 }

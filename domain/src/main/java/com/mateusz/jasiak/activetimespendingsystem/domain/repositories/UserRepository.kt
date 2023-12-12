@@ -5,9 +5,11 @@ import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.UserDomai
 import com.mateusz.jasiak.activetimespendingsystem.domain.repositories.base.BaseRepository
 
 interface UserRepository : BaseRepository {
-    suspend fun getUsers(): ApiResponse<List<UserDomain>>
+    suspend fun getUsersFromApi(): ApiResponse<List<UserDomain>>
 
-    suspend fun addUser(userDomain: UserDomain): ApiResponse<UserDomain>
+    suspend fun getUserByIdFromApi(idSocialMedia: String): ApiResponse<UserDomain>
 
-    suspend fun updateUserToken(id: String?, userDomain: UserDomain): ApiResponse<UserDomain>
+    suspend fun addUserOnApi(userDomain: UserDomain): ApiResponse<UserDomain>
+
+    suspend fun updateUserByIdOnApi(id: String?, userDomain: UserDomain): ApiResponse<UserDomain>
 }
