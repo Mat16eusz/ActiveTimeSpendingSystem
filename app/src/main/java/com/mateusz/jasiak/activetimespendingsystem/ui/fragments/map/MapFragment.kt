@@ -245,6 +245,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                         placeTagName.find { tagName ->
                             placeType.equals(tagName)
                         }?.let {
+                            viewModel.timestampStart = System.currentTimeMillis() / 1000
+
                             val coordinateDomain = CoordinateDomain(
                                 viewModel.idSocialMedia,
                                 viewModel.loggedUserData?.firstName,
@@ -259,6 +261,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                         } ?: run {
                             if (!foundPlace) {
                                 googleMap.clear()
+                                viewModel.timestampEnd = System.currentTimeMillis() / 1000
                                 viewModel.idSocialMedia?.let { idSocialMedia ->
                                     viewModel.deleteCoordinateByIdOnApi(idSocialMedia)
                                 }

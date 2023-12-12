@@ -7,6 +7,7 @@ import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.Coordinat
 import com.mateusz.jasiak.activetimespendingsystem.domain.model.enums.ErrorCodeEnum
 import com.mateusz.jasiak.activetimespendingsystem.domain.usecase.LoginUseCase
 import com.mateusz.jasiak.activetimespendingsystem.domain.usecase.MapUseCase
+import com.mateusz.jasiak.activetimespendingsystem.utils.SCORE_ZERO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,6 +17,8 @@ class MapViewModel @Inject constructor(
 ) : BaseViewModel() {
     val action = MutableLiveData<Action>()
     var allUserCoordinates: List<CoordinateDomain>? = null
+    var timestampStart: Long? = null
+    var timestampEnd: Long? = null
 
     fun getUserByIdFromApi(idSocialMedia: String) {
         viewModelScope.launch {
@@ -88,6 +91,15 @@ class MapViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun calculateTime(): Long {
+        timestampEnd?.let { timestampEnd ->
+            timestampStart?.let { timestampStart ->
+                return timestampEnd.minus(timestampStart)
+            }
+        }
+        return SCORE_ZERO
     }
 
     sealed class Action {
