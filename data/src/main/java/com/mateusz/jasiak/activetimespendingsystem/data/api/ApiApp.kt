@@ -1,6 +1,7 @@
 package com.mateusz.jasiak.activetimespendingsystem.data.api
 
 import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.CoordinateDomain
+import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.RankingDomain
 import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.UserDomain
 import retrofit2.Response
 import retrofit2.http.Body
@@ -41,4 +42,16 @@ interface ApiApp {
     suspend fun deleteCoordinateByIdOnApi(
         @Path("id") idSocialMedia: String
     ): Response<CoordinateDomain>
+
+    @GET("rankings")
+    suspend fun getRankingsFromApi(): Response<List<RankingDomain>>
+
+    @POST("ranking")
+    suspend fun addRankingOnApi(@Body rankingDomain: RankingDomain): Response<RankingDomain>
+
+    @PUT("ranking/{id}")
+    suspend fun updateRankingByIdOnApi(
+        @Path("id") idSocialMedia: String,
+        @Body rankingDomain: RankingDomain
+    ): Response<RankingDomain>
 }

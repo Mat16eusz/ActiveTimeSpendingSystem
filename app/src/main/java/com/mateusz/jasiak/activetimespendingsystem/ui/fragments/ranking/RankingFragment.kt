@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mateusz.jasiak.activetimespendingsystem.R
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseFragment
 import com.mateusz.jasiak.activetimespendingsystem.databinding.FragmentRankingBinding
@@ -15,6 +16,9 @@ class RankingFragment : BaseFragment() {
         viewModelOf(
             RankingViewModel::class
         )
+    }
+    private val adapter: RankingAdapter by lazy {
+        RankingAdapter()
     }
 
     override fun onCreateView(
@@ -32,8 +36,31 @@ class RankingFragment : BaseFragment() {
             )
         binding.lifecycleOwner = viewLifecycleOwner
 
+        binding.rankingRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.rankingRecyclerView.adapter = adapter
 
+        viewModel.idSocialMedia = loadDataLogged()
+        viewModel.getRankingsFromApi()
+
+        initObserver()
 
         return binding.root
+    }
+
+    private fun initObserver() {
+        viewModel.action.observe(viewLifecycleOwner) {
+            when (it) {
+                is RankingViewModel.Action.GetRankingsData -> {
+                    adapter.idSocialMedia = viewModel.idSocialMedia
+                    viewModel.rankingList?.let { rankingList ->
+                        adapter.items = rankingList.toMutableList()
+                    }
+                }
+
+                else -> {
+                    // Do nothing
+                }
+            }
+        }
     }
 }

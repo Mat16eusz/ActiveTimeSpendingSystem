@@ -96,7 +96,7 @@ dependencies {
     // Google SignIn
     implementation("com.google.android.gms:play-services-base:18.2.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
-    implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
 
     // Maps SDK for Android
     implementation("com.google.android.gms:play-services-maps:18.2.0")

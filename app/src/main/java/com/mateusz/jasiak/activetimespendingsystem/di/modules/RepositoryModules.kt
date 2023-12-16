@@ -2,8 +2,10 @@ package com.mateusz.jasiak.activetimespendingsystem.di.modules
 
 import com.mateusz.jasiak.activetimespendingsystem.data.api.ApiApp
 import com.mateusz.jasiak.activetimespendingsystem.data.repository.CoordinateRepositoryImpl
+import com.mateusz.jasiak.activetimespendingsystem.data.repository.RankingRepositoryImpl
 import com.mateusz.jasiak.activetimespendingsystem.data.repository.UserRepositoryImpl
 import com.mateusz.jasiak.activetimespendingsystem.domain.repositories.CoordinateRepository
+import com.mateusz.jasiak.activetimespendingsystem.domain.repositories.RankingRepository
 import com.mateusz.jasiak.activetimespendingsystem.domain.repositories.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -19,4 +21,9 @@ class RepositoryModules {
     internal fun provideCoordinateRepositoryImpl(
         apiApp: ApiApp
     ): CoordinateRepository = CoordinateRepositoryImpl(apiApp)
+
+    @Provides
+    internal fun provideRankingRepositoryImpl(
+        apiApp: ApiApp
+    ): RankingRepository = RankingRepositoryImpl(apiApp)
 }
