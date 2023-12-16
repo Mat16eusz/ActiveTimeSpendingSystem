@@ -31,10 +31,8 @@ import com.mateusz.jasiak.activetimespendingsystem.common.BaseFragment
 import com.mateusz.jasiak.activetimespendingsystem.databinding.FragmentMapBinding
 import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.CoordinateDomain
 import com.mateusz.jasiak.activetimespendingsystem.ui.activities.main.MainActivity
-import com.mateusz.jasiak.activetimespendingsystem.utils.EMPTY_STRING
-import com.mateusz.jasiak.activetimespendingsystem.utils.ID_SOCIAL_MEDIA_KEY
-import com.mateusz.jasiak.activetimespendingsystem.utils.SHARED_PREFERENCES
-import dagger.android.support.DaggerAppCompatActivity
+import com.mateusz.jasiak.activetimespendingsystem.utils.HALF_SECOND_IN_MILLISECONDS
+import com.mateusz.jasiak.activetimespendingsystem.utils.ONE_SECOND_IN_MILLISECONDS
 
 class MapFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMapBinding
@@ -147,11 +145,12 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
             return
         }
 
-        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
-            .setWaitForAccurateLocation(false)
-            .setMinUpdateIntervalMillis(500)
-            .setMaxUpdateDelayMillis(1000)
-            .build()
+        locationRequest =
+            LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, ONE_SECOND_IN_MILLISECONDS)
+                .setWaitForAccurateLocation(false)
+                .setMinUpdateIntervalMillis(HALF_SECOND_IN_MILLISECONDS)
+                .setMaxUpdateDelayMillis(ONE_SECOND_IN_MILLISECONDS)
+                .build()
 
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
@@ -245,7 +244,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                         placeTagName.find { tagName ->
                             placeType.equals(tagName)
                         }?.let {
-                            viewModel.timestampStart = System.currentTimeMillis() / 1000
+                            viewModel.timestampStart =
+                                System.currentTimeMillis() / ONE_SECOND_IN_MILLISECONDS
 
                             val coordinateDomain = CoordinateDomain(
                                 viewModel.idSocialMedia,
@@ -261,7 +261,11 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                         } ?: run {
                             if (!foundPlace) {
                                 googleMap.clear()
-                                viewModel.timestampEnd = System.currentTimeMillis() / 1000
+                                viewModel.timestampEnd =
+                                    System.currentTimeMillis() / ONE_SECOND_IN_MILLISECONDS
+                                viewModel.idSocialMedia?.let { idSocialMedia ->
+                                    viewModel.updateRankingByIdOnApi(idSocialMedia)
+                                }
                                 viewModel.idSocialMedia?.let { idSocialMedia ->
                                     viewModel.deleteCoordinateByIdOnApi(idSocialMedia)
                                 }
@@ -272,13 +276,5 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 }
             }
         }
-    }
-
-    private fun loadDataLogged(): String? {
-        val sharedPreferences = context?.getSharedPreferences(
-            SHARED_PREFERENCES,
-            DaggerAppCompatActivity.MODE_PRIVATE
-        )
-        return sharedPreferences?.getString(ID_SOCIAL_MEDIA_KEY, EMPTY_STRING)
     }
 }

@@ -8,14 +8,18 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import com.mateusz.jasiak.activetimespendingsystem.common.BaseViewModel
+import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.RankingDomain
 import com.mateusz.jasiak.activetimespendingsystem.domain.model.domain.UserDomain
 import com.mateusz.jasiak.activetimespendingsystem.domain.model.enums.ErrorCodeEnum
 import com.mateusz.jasiak.activetimespendingsystem.domain.usecase.LoginUseCase
+import com.mateusz.jasiak.activetimespendingsystem.domain.usecase.RankingUseCase
+import com.mateusz.jasiak.activetimespendingsystem.utils.SCORE_ZERO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val rankingUseCase: RankingUseCase
 ) : BaseViewModel() {
     val action = MutableLiveData<Action>()
     var userDomain = UserDomain()
@@ -121,13 +125,31 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val response = loginUseCase.addUserOnApi(userDomain)
             when (response.isSuccessful) {
-                true -> action.postValue(Action.StartActivity)
+                true -> addRankingOnApi(userDomain)
 
                 else -> {
                     when (response.errorResponse?.code) {
                         ErrorCodeEnum.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
                         else -> baseAction.postValue(BaseAction.UnknownError)
                     }
+                }
+            }
+        }
+    }
+
+    private suspend fun addRankingOnApi(userDomain: UserDomain) {
+        val rankingDomain = RankingDomain(
+            userDomain.idSocialMedia,
+            userDomain.name,
+            SCORE_ZERO
+        )
+        val response = rankingUseCase.addRankingOnApi(rankingDomain)
+        when (response.isSuccessful) {
+            true -> action.postValue(Action.StartActivity)
+            else -> {
+                when (response.errorResponse?.code) {
+                    ErrorCodeEnum.NO_NETWORK -> baseAction.postValue(BaseAction.NoNetwork)
+                    else -> baseAction.postValue(BaseAction.UnknownError)
                 }
             }
         }
