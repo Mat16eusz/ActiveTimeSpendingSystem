@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "ActiveTimeSpendingSystem"
 include(":app")
- 
+include(":domain")
+include(":data")
