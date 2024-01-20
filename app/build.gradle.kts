@@ -28,6 +28,7 @@ android {
 
         buildConfigField("String", "BASE_URL", apikeyProperties["BASE_URL"].toString())
         buildConfigField("String", "LOCAL_URL", apikeyProperties["LOCAL_URL"].toString())
+        buildConfigField("String", "SET_LOCAL_URL", apikeyProperties["SET_LOCAL_URL"].toString())
         buildConfigField("String", "MAPS_API_KEY", apikeyProperties["MAPS_API_KEY"].toString())
     }
 
