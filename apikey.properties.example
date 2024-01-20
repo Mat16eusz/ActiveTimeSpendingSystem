@@ -1,2 +1,4 @@
 BASE_URL=""
+LOCAL_URL=""
+SET_LOCAL_URL=1 // 0 or 1
 MAPS_API_KEY=""
